@@ -8,11 +8,10 @@ public class CreditCard {
     private String ccv;
     private String pin;
 
-    public CreditCard(String cardNumber, double limit, double currentDebt,
-                      String ccv, String pin) {
+    public CreditCard(String cardNumber, double limit, String ccv, String pin) {
         this.cardNumber = cardNumber;
         this.limit = limit;
-        this.currentDebt = currentDebt;
+        this.currentDebt = 0;
         this.ccv = ccv;
         this.pin = pin;
     }
