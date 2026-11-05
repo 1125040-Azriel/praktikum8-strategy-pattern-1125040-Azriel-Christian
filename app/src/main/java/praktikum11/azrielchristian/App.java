@@ -1,3 +1,4 @@
+
 package praktikum11.azrielchristian;
 
 import java.util.ArrayList;
@@ -42,7 +43,6 @@ public class App {
 
                 ArrayList<Integer> availableMethods = new ArrayList<>();
 
-                // Menampilkan metode yang sesuai dengan nominal
                 for (int i = 0; i < paymentMethods.size(); i++) {
                     PaymentStrategy strategy = paymentMethods.get(i);
 
@@ -79,6 +79,7 @@ public class App {
                 System.out.println("1. Cash / Wallet");
                 System.out.println("2. Debit Card");
                 System.out.println("3. Credit Card");
+                System.out.println("4. E-Wallet");
                 System.out.print("Pilih jenis pembayaran: ");
 
                 int jenis = scanner.nextInt();
@@ -134,12 +135,30 @@ public class App {
 
                     System.out.println("Credit Card berhasil ditambahkan.");
 
+                } else if (jenis == 4) {
+                    System.out.print("Masukkan nomor HP: ");
+                    String phoneNumber = scanner.nextLine();
+
+                    System.out.print("Masukkan saldo E-Wallet: ");
+                    double balance = scanner.nextDouble();
+                    scanner.nextLine();
+
+                    System.out.print("Masukkan PIN: ");
+                    String pin = scanner.nextLine();
+
+                    paymentMethods.add(
+                            new EWallet(phoneNumber, balance, pin));
+                    paymentNames.add("E-Wallet " + phoneNumber);
+
+                    System.out.println("E-Wallet berhasil ditambahkan.");
+
                 } else {
                     System.out.println("Jenis pembayaran tidak valid.");
                 }
 
             } else if (menu == 0) {
-                System.out.println("Terima kasih telah menggunakan sistem.");
+                System.out.println(
+                        "Terima kasih telah menggunakan sistem.");
 
             } else {
                 System.out.println("Menu tidak valid.");
