@@ -1,6 +1,9 @@
+
 package praktikum11.azrielchristian;
 
-public class Wallet {
+import java.util.List;
+
+public class Wallet implements PaymentStrategy {
     private String name;
     private double cashValue;
 
@@ -9,17 +12,29 @@ public class Wallet {
         this.cashValue = cashValue;
     }
 
+    @Override
     public boolean validate(double amount) {
         return amount > 0 && amount <= cashValue;
     }
 
-    public void pay ( double amount) {
-        if ( validate(amount)) {
+    @Override
+    public void pay(double amount) {
+        if (validate(amount)) {
             cashValue -= amount;
-
-            System.err.println("pembayaran cash berhasil, sisa wallet: " + cashValue);
+            System.out.println("Pembayaran cash berhasil, sisa wallet: " + cashValue);
         } else {
-            System.err.println("Pembayaran gagal. Saldo tidak mencukupi.");
+            System.out.println("Pembayaran gagal. Saldo tidak mencukupi.");
         }
+    }
+
+    @Override
+    public List<AuthorizationMethod> getRequiredAuthorizations() {
+        return List.of();
+    }
+
+    @Override
+    public boolean validateAuthorization(
+            AuthorizationMethod method, String credential) {
+        return false;
     }
 }

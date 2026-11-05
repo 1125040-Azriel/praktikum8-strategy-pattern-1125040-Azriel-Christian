@@ -13,10 +13,11 @@ public class App {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        ArrayList<Object> paymentMethods = new ArrayList<>();
+        ArrayList<PaymentStrategy> paymentMethods = new ArrayList<>();
         ArrayList<String> paymentNames = new ArrayList<>();
 
-        // Inisialisasi metode pembayaran awal
+        PaymentProcessor processor = new PaymentProcessor(scanner);
+
         paymentMethods.add(new Wallet("Wallet Utama", 10000));
         paymentNames.add("Cash - Wallet Utama");
 
@@ -34,14 +35,9 @@ public class App {
                 System.out.println("Program selesai.");
                 break;
             } else if (menu == 1) {
-
-                if (paymentMethods.isEmpty()) {
-                    System.out.println("Belum ada metode pembayaran.");
-                    continue;
-                }
-
                 System.out.print("Masukkan jumlah yang dibayar: ");
                 double amount = scanner.nextDouble();
+                scanner.nextLine();
 
                 System.out.println("\nPilih metode pembayaran:");
 
@@ -51,24 +47,19 @@ public class App {
 
                 System.out.print("Pilihan: ");
                 int pilihan = scanner.nextInt();
+                scanner.nextLine();
 
                 if (pilihan < 1 || pilihan > paymentMethods.size()) {
                     System.out.println("Pilihan tidak valid.");
                     continue;
                 }
 
-                Object payment = paymentMethods.get(pilihan - 1);
+                PaymentStrategy strategy =
+                        paymentMethods.get(pilihan - 1);
 
-                if (payment instanceof Wallet) {
-                    ((Wallet) payment).pay(amount);
-                } else if (payment instanceof DebitCard) {
-                    ((DebitCard) payment).pay(amount);
-                } else if (payment instanceof CreditCard) {
-                    ((CreditCard) payment).pay(amount);
-                }
+                processor.processPayment(strategy, amount);
 
             } else if (menu == 2) {
-
                 System.out.println("\n=== TAMBAH PEMBAYARAN ===");
                 System.out.println("1. Cash (Wallet baru)");
                 System.out.println("2. Debit Card");
@@ -84,6 +75,7 @@ public class App {
 
                     System.out.print("Masukkan saldo awal: ");
                     double balance = scanner.nextDouble();
+                    scanner.nextLine();
 
                     paymentMethods.add(new Wallet(name, balance));
                     paymentNames.add("Cash - " + name);
@@ -102,7 +94,7 @@ public class App {
                     String pin = scanner.nextLine();
 
                     paymentMethods.add(
-                        new DebitCard(cardNumber, balance, pin)
+                            new DebitCard(cardNumber, balance, pin)
                     );
                     paymentNames.add("Debit Card - " + cardNumber);
 
@@ -123,7 +115,7 @@ public class App {
                     String pin = scanner.nextLine();
 
                     paymentMethods.add(
-                        new CreditCard(cardNumber, limit, ccv, pin)
+                            new CreditCard(cardNumber, limit, ccv, pin)
                     );
                     paymentNames.add("Credit Card - " + cardNumber);
 
