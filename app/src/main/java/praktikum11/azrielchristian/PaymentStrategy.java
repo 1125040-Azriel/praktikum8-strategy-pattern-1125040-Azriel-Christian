@@ -8,11 +8,7 @@ public interface PaymentStrategy {
 
     void pay(double amount);
 
-    List<AuthorizationMethod> getRequiredAuthorizations();
-
-    boolean validateAuthorization(
-        AuthorizationMethod method, String credential
-    );
+    List<AuthorizationStrategy> getRequiredAuthorizations();
 
     boolean canPay(double amount);
 }

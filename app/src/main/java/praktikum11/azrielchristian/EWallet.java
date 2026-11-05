@@ -1,3 +1,4 @@
+
 package praktikum11.azrielchristian;
 
 import java.util.List;
@@ -23,24 +24,19 @@ public class EWallet implements PaymentStrategy {
     public void pay(double amount) {
         if (validate(amount)) {
             balance -= amount;
-            System.out.println("Pembayaran E-Wallet berhasil, sisa saldo: "
-                    + balance);
+            System.out.println(
+                    "Pembayaran E-Wallet berhasil, sisa saldo: " + balance);
         } else {
             System.out.println("Pembayaran gagal. Saldo tidak mencukupi.");
         }
     }
 
     @Override
-    public List<AuthorizationMethod> getRequiredAuthorizations() {
-        return List.of(AuthorizationMethod.PIN);
-    }
-
-    @Override
-    public boolean validateAuthorization(
-            AuthorizationMethod method, String credential) {
-
-        return method == AuthorizationMethod.PIN
-                && pin.equals(credential);
+    public List<AuthorizationStrategy> getRequiredAuthorizations() {
+        return List.of(
+                new PinAuthorization(pin),
+                new OtpAuthorization("123456")
+        );
     }
 
     @Override

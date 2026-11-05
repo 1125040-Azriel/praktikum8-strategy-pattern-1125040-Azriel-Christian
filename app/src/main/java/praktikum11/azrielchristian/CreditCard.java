@@ -4,6 +4,7 @@ package praktikum11.azrielchristian;
 import java.util.List;
 
 public class CreditCard implements PaymentStrategy {
+
     private String cardNumber;
     private double limit;
     private double currentDebt;
@@ -27,33 +28,19 @@ public class CreditCard implements PaymentStrategy {
     public void pay(double amount) {
         if (validate(amount)) {
             currentDebt += amount;
-            System.out.println("Pembayaran credit berhasil, sisa limit: "
-                    + (limit - currentDebt));
+            System.out.println(
+                    "Pembayaran credit berhasil, total utang: " + currentDebt);
         } else {
-            System.out.println("Pembayaran gagal. Limit kredit tidak mencukupi.");
+            System.out.println("Pembayaran gagal. Limit tidak mencukupi.");
         }
     }
 
     @Override
-    public List<AuthorizationMethod> getRequiredAuthorizations() {
+    public List<AuthorizationStrategy> getRequiredAuthorizations() {
         return List.of(
-            AuthorizationMethod.CCV,
-            AuthorizationMethod.PIN
+                new CcvAuthorization(ccv),
+                new PinAuthorization(pin)
         );
-    }
-
-    @Override
-    public boolean validateAuthorization(
-            AuthorizationMethod method, String credential) {
-        if (method == AuthorizationMethod.CCV) {
-            return ccv.equals(credential);
-        }
-
-        if (method == AuthorizationMethod.PIN) {
-            return pin.equals(credential);
-        }
-
-        return false;
     }
 
     @Override

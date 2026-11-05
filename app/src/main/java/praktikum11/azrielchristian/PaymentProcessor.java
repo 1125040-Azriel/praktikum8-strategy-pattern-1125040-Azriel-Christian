@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PaymentProcessor {
+
     private Scanner scanner;
 
     public PaymentProcessor(Scanner scanner) {
@@ -12,25 +13,28 @@ public class PaymentProcessor {
     }
 
     public void processPayment(PaymentStrategy strategy, double amount) {
+
         if (!strategy.canPay(amount)) {
-            System.out.println("Pembayaran gagal. Nominal tidak sesuai aturan metode pembayaran.");
+            System.out.println(
+                    "Pembayaran gagal. Nominal tidak sesuai aturan metode pembayaran.");
             return;
         }
 
         if (!strategy.validate(amount)) {
-            System.out.println("Pembayaran gagal. Saldo atau limit tidak mencukupi.");
+            System.out.println(
+                    "Pembayaran gagal. Saldo atau limit tidak mencukupi.");
             return;
         }
 
-        List<AuthorizationMethod> requiredAuthorizations =
+        List<AuthorizationStrategy> requiredAuthorizations =
                 strategy.getRequiredAuthorizations();
 
-        for (AuthorizationMethod method : requiredAuthorizations) {
-            System.out.print("Masukkan " + method + ": ");
-            String credential = scanner.nextLine();
+        for (AuthorizationStrategy authorization : requiredAuthorizations) {
 
-            if (!strategy.validateAuthorization(method, credential)) {
-                System.out.println("Autentikasi gagal. Pembayaran dibatalkan.");
+            if (!authorization.authorize(scanner)) {
+                System.out.println(
+                        "Autentikasi " + authorization.getName()
+                        + " gagal. Pembayaran dibatalkan.");
                 return;
             }
         }
