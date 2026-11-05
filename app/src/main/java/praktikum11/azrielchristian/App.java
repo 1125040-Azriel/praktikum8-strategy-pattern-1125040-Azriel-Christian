@@ -13,9 +13,11 @@ public class App {
         Wallet wallet = new Wallet("Wallet Utama", 10000);
 
         DebitCard debitCard = new DebitCard(
-            "1234567890",
-            100000,
-            "1234"
+            "1234567890", 100000, "1234"
+        );
+
+        CreditCard creditCard = new CreditCard(
+            "9876543210", 1000000, 0, "123", "1234"
         );
 
         Scanner scanner = new Scanner(System.in);
@@ -32,6 +34,7 @@ public class App {
             System.out.println("Pilih metode pembayaran:");
             System.out.println("1. Cash");
             System.out.println("2. Debit");
+            System.out.println("3. Credit");
             System.out.print("Pilihan: ");
 
             int pilihan = scanner.nextInt();
@@ -40,6 +43,8 @@ public class App {
                 wallet.pay(amount);
             } else if (pilihan == 2) {
                 debitCard.pay(amount);
+            } else if (pilihan == 3) {
+                creditCard.pay(amount);
             } else {
                 System.out.println("Pilihan metode pembayaran tidak valid.");
             }
