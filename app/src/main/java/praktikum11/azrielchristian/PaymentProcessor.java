@@ -12,6 +12,11 @@ public class PaymentProcessor {
     }
 
     public void processPayment(PaymentStrategy strategy, double amount) {
+        if (!strategy.canPay(amount)) {
+            System.out.println("Pembayaran gagal. Nominal tidak sesuai aturan metode pembayaran.");
+            return;
+        }
+
         if (!strategy.validate(amount)) {
             System.out.println("Pembayaran gagal. Saldo atau limit tidak mencukupi.");
             return;

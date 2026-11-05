@@ -13,4 +13,6 @@ public interface PaymentStrategy {
     boolean validateAuthorization(
         AuthorizationMethod method, String credential
     );
+
+    boolean canPay(double amount);
 }

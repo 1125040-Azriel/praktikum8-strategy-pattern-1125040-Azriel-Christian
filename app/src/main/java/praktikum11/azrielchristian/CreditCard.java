@@ -55,4 +55,9 @@ public class CreditCard implements PaymentStrategy {
 
         return false;
     }
+
+    @Override
+    public boolean canPay(double amount) {
+        return amount >= 100000 && amount <= 100000000;
+    }
 }

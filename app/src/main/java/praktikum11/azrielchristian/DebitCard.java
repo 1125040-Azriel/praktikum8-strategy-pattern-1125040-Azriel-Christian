@@ -40,4 +40,9 @@ public class DebitCard implements PaymentStrategy {
         return method == AuthorizationMethod.PIN
                 && pin.equals(credential);
     }
+
+    @Override
+    public boolean canPay(double amount) {
+        return amount > 0 && amount <= 10000000;
+    }
 }

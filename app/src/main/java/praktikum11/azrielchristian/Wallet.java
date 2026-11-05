@@ -37,4 +37,9 @@ public class Wallet implements PaymentStrategy {
             AuthorizationMethod method, String credential) {
         return false;
     }
+
+    @Override
+    public boolean canPay(double amount) {
+        return amount >= 100 && amount <= 1000000;
+    }
 }
